@@ -7,6 +7,7 @@ include_directories(SDL2Test ${SDL2_INCLUDE_DIRS})
 set(LIBRARY_NAME ${PROJECT_NAME}_lib)
 
 set(SOURCE_FILES
+  sdl.h
   defs.h
   structs.h
   init.h

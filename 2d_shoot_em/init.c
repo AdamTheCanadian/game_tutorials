@@ -1,6 +1,6 @@
 #include "init.h"
 
-#include "SDL2/SDL.h"
+#include "sdl.h"
 
 int init_sdl(
   App* app,

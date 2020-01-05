@@ -1,7 +1,7 @@
 #ifndef ATC_STRUCTS_H
 #define ATC_STRUCTS_H
 
-#include "SDL2/SDL.h"
+#include "sdl.h"
 
 typedef struct {
   SDL_Renderer* renderer;
