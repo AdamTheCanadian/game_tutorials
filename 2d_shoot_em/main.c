@@ -9,7 +9,7 @@ int main() {
  
   App app;
   memset(&app, 0, sizeof(App));
-  if (init_sdl(&app) < 0) {
+  if (init_sdl(&app, "Shooter 01") < 0) {
     goto exit_error;
   }
   

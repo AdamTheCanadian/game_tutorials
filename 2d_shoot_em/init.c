@@ -2,12 +2,14 @@
 
 #include "SDL2/SDL.h"
 
-int init_sdl(App* app) {
+int init_sdl(
+  App* app,
+  const char* windowName) {
 
   int render_flags = SDL_RENDERER_ACCELERATED; 
   int window_flags = 0;
   app->window = SDL_CreateWindow(
-    "Shooter 01",
+    windowName,
     /* UNDEFINED means place the window wherever */
     SDL_WINDOWPOS_UNDEFINED,
     SDL_WINDOWPOS_UNDEFINED, 
