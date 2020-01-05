@@ -7,8 +7,9 @@
 /**
  * @brief Initialize the sdl window
  * 
+ * @return int -1 if there was an error. 1 if successful
  */
-void init_sdl(App* app);
+int init_sdl(App* app);
 
 /**
  * @brief Cleanup any applications

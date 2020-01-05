@@ -6,25 +6,33 @@
 #include "init.h"
 
 int main() {
-  printf("Hello from game_tutorials\n");
-  /* Test to make sure SDL is being linked correctly */
-  if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		printf("Couldn't initialize SDL: %s\n", SDL_GetError());
-		exit(1);
-	}
-
+ 
   App app;
   memset(&app, 0, sizeof(App));
-  init_sdl(&app);
+  if (init_sdl(&app) < 0) {
+    goto exit_error;
+  }
   
   while(1) {
     prepare_scene(&app);
 
-    do_input();
+    if (do_input() < 0) {
+      goto exit_program;
+    }
 
     present_scene(&app);
 
     SDL_Delay(16);
   }
-  return 0;
+  return EXIT_SUCCESS;
+
+exit_error:
+  cleanup(&app);
+  return EXIT_FAILURE;
+
+exit_program:
+  printf("Exiting program thanks for playing\n");
+  cleanup(&app);
+  return EXIT_SUCCESS;
+
 }

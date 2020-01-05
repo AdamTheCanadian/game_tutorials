@@ -8,4 +8,15 @@ typedef struct {
   SDL_Window* window;
 } App;
 
+/**
+ * @brief Object for holding color values 
+ * 
+ */
+typedef struct {
+  int r;
+  int g;
+  int b;
+  int a;
+} Color;
+
 #endif

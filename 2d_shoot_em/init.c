@@ -2,7 +2,7 @@
 
 #include "SDL2/SDL.h"
 
-void init_sdl(App* app) {
+int init_sdl(App* app) {
 
   int render_flags = SDL_RENDERER_ACCELERATED; 
   int window_flags = 0;
@@ -17,7 +17,7 @@ void init_sdl(App* app) {
   
   if (!app->window) {
     printf("Failed to open window: %s\n", SDL_GetError());
-    exit(1);
+    return -1;
   }
   SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 
@@ -28,8 +28,9 @@ void init_sdl(App* app) {
     render_flags);
   if (!app->renderer) {
     printf("Failed to open window: %s\n", SDL_GetError());
-    exit(1);
+    return -1;
   }
+  return 1;
 }
 
 void cleanup(App* app)

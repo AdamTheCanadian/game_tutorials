@@ -4,7 +4,8 @@
 /**
  * @brief Process any inputs (keyboard, mouse) from the sdl
  * 
+ * @return int -1 if there was request to exit
  */
-void do_input();
+int do_input();
 
 #endif
