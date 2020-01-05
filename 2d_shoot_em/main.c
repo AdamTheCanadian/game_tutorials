@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include "defs.h"
+#include "structs.h"
+#include "input.h"
+#include "draw.h"
+#include "init.h"
 
 int main() {
   printf("Hello from game_tutorials\n");
@@ -8,5 +12,19 @@ int main() {
 		printf("Couldn't initialize SDL: %s\n", SDL_GetError());
 		exit(1);
 	}
-  printf("SDL linked correctly\n");
+
+  App app;
+  memset(&app, 0, sizeof(App));
+  init_sdl(&app);
+  
+  while(1) {
+    prepare_scene(&app);
+
+    do_input();
+
+    present_scene(&app);
+
+    SDL_Delay(16);
+  }
+  return 0;
 }

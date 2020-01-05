@@ -7,7 +7,14 @@ include_directories(SDL2Test ${SDL2_INCLUDE_DIRS})
 set(LIBRARY_NAME ${PROJECT_NAME}_lib)
 
 set(SOURCE_FILES
-  defs.h)
+  defs.h
+  structs.h
+  init.h
+  init.c
+  input.h
+  input.c
+  draw.h
+  draw.c)
 
 add_library(${LIBRARY_NAME} ${SOURCE_FILES})
 # Need to force the linker language to csince library is only header files
