@@ -8,6 +8,9 @@ Games are built around libsdl. I am running ubuntu 18, so to install:
 
 `sudo apt install libsdl2-dev`
 
+SDL image is not part of standard lib sdl so needto also install that.
+`sudo apt-get install libsdl2-image-dev`
+
 CMake is used as the build system, vs make in the original authors. 
 
 ## Notes to reader
