@@ -19,4 +19,14 @@ typedef struct {
   int a;
 } Color;
 
+/**
+ * @brief Struct for holding a texture and the location of the texture
+ * 
+ */
+typedef struct {
+	int x;
+	int y;
+	SDL_Texture *texture;
+} Entity;
+
 #endif

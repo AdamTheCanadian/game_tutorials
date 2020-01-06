@@ -32,6 +32,9 @@ int init_sdl(
     printf("Failed to open window: %s\n", SDL_GetError());
     return -1;
   }
+  /* Initialize sdl image library that will allow us to load png and jpg 
+    images */
+  IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
   return 1;
 }
 
