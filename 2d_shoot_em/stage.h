@@ -41,4 +41,12 @@ void spawn_enemies();
 
 int bullet_hit_fighter(Entity* b);
 
+void reset_stage();
+
+void clip_player();
+
+void fire_alien_bullet(Entity* e);
+
+void do_enemies();
+
 #endif
