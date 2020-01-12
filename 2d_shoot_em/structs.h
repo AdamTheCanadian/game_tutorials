@@ -6,6 +6,11 @@
 typedef struct {
   SDL_Renderer* renderer;
   SDL_Window* window;
+  /* Variables for tracking movement from keyboard input */
+  int up;
+  int down;
+  int left;
+  int right;
 } App;
 
 /**

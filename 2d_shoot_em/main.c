@@ -26,8 +26,21 @@ int main() {
   while(1) {
     prepare_scene(&app);
 
-    if (do_input() < 0) {
+    if (do_input(&app) < 0) {
       goto exit_program;
+    }
+
+    if (app.up) {
+      player.y -= 4;
+    }
+    if (app.down) {
+      player.y += 4;
+    }
+    if (app.left) {
+      player.x -= 4;
+    }
+    if (app.right) {
+      player.x += 4;
     }
 
     blit(&app, player.texture, player.x, player.y);
