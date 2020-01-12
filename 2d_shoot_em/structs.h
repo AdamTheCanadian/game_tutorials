@@ -37,6 +37,7 @@ struct Entity {
   int health;
   /* Flag indicating ability to fire*/
   int reload;
+  int side;
 	SDL_Texture *texture;
   /* Linked list, pointer to next entity */
   Entity* next;

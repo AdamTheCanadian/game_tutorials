@@ -1,5 +1,5 @@
 #include "stage.h"
-
+#include "util.h"
 
 static Entity *player;
 static SDL_Texture *bullet_texture;
@@ -30,6 +30,7 @@ void init_player() {
 
   player->x = 100;
   player->y = 100;
+	player->side = SIDE_PLAYER;
   player->texture = load_texture("images/player.png");
   SDL_QueryTexture(player->texture, NULL, NULL, &player->w, &player->h);
 }
@@ -84,7 +85,7 @@ void do_bullets() {
 		b->x += b->dx;
 		b->y += b->dy;
 		/* If bullet has passed out of screen delete it */
-		if (b->x > SCREEN_WIDTH) {
+		if (bullet_hit_fighter(b) ||  b->x > SCREEN_WIDTH) {
 			if (b == stage.bullet_tail) {
 				stage.bullet_tail = prev;
 			}
@@ -111,7 +112,7 @@ void fire_bullet() {
   /* Bullets originate at the current players location */
   bullet->x = player->x;
   bullet->y = player->y;
-
+	bullet->side = SIDE_PLAYER;
   bullet->dx = PLAYER_BULLET_SPEED;
   bullet->health = 1;
   bullet->texture = bullet_texture;
@@ -147,7 +148,7 @@ void do_fighters() {
 		e->x += e->dx;
 		e->y += e->dy;
 		
-		if (e != player && e->x < -e->w) {
+		if (e != player && (e->x < -e->w || e->health == 0)) {
 			if (e == stage.fighter_tail) {
 				stage.fighter_tail = prev;
 			}
@@ -173,7 +174,9 @@ void spawn_enemies() {
 		
 		enemy->x = SCREEN_WIDTH;
 		enemy->y = rand() % SCREEN_HEIGHT;
+		enemy->side = SIDE_ALIEN;
 		enemy->texture = enemy_texture;
+		enemy->health = 1;
 		SDL_QueryTexture(enemy->texture, NULL, NULL, &enemy->w, &enemy->h);
 		
 		enemy->dx = -(2 + (rand() % 4));
@@ -188,5 +191,19 @@ void draw_fighters() {
 	
 	for (e = stage.fighter_head.next ; e != NULL ; e = e->next) {
 		blit(e->texture, e->x, e->y);
+	}
+}
+
+int bullet_hit_fighter(Entity* b) {
+	
+	Entity *e;
+	
+	for (e = stage.fighter_head.next ; e != NULL ; e = e->next) {
+		if (e->side != b->side && collision(b->x, b->y, b->w, b->h, e->x, e->y, e->w, e->h)) {
+			b->health = 0;
+			e->health = 0;
+			
+			return 1;
+		}
 	}
 }

@@ -39,4 +39,6 @@ void do_fighters();
 
 void spawn_enemies();
 
+int bullet_hit_fighter(Entity* b);
+
 #endif
