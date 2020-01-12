@@ -3,12 +3,11 @@
 #include "sdl.h"
 
 int init_sdl(
-  App* app,
   const char* windowName) {
 
   int render_flags = SDL_RENDERER_ACCELERATED; 
   int window_flags = 0;
-  app->window = SDL_CreateWindow(
+  app.window = SDL_CreateWindow(
     windowName,
     /* UNDEFINED means place the window wherever */
     SDL_WINDOWPOS_UNDEFINED,
@@ -17,18 +16,18 @@ int init_sdl(
     SCREEN_HEIGHT,
     window_flags);
   
-  if (!app->window) {
+  if (!app.window) {
     printf("Failed to open window: %s\n", SDL_GetError());
     return -1;
   }
   SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 
-  app->renderer = SDL_CreateRenderer(
-    app->window, 
+  app.renderer = SDL_CreateRenderer(
+    app.window, 
     /* SDL to use the first graphics acceleration device it finds */
     -1, 
     render_flags);
-  if (!app->renderer) {
+  if (!app.renderer) {
     printf("Failed to open window: %s\n", SDL_GetError());
     return -1;
   }

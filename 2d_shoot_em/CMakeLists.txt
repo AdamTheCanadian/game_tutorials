@@ -25,7 +25,10 @@ set(SOURCE_FILES
   input.h
   input.c
   draw.h
-  draw.c)
+  draw.c
+  stage.c
+  stage.h
+  main.h)
 
 add_library(${LIBRARY_NAME} ${SOURCE_FILES})
 # Need to force the linker language to csince library is only header files

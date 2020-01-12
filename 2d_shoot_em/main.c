@@ -4,30 +4,25 @@
 #include "input.h"
 #include "draw.h"
 #include "init.h"
+#include "stage.h"
+
+static void cap_frame_rate(long* then, float* remainder);
 
 int main() {
  
-  App app;
-  Entity player;
-  Entity bullet;
+  long then;
+  float remainder;
 
   memset(&app, 0, sizeof(App));
-  memset(&player, 0, sizeof(Entity));
-  memset(&bullet, 0, sizeof(Entity));
 
-  if (init_sdl(&app, "Shooter 01") < 0) {
+  if (init_sdl("Shooter 01") < 0) {
     goto exit_error;
   }
   
-  player.x = 100;
-  player.y = 100;
-  player.texture = load_texture(
-    &app,
-    "images/player.png");
+  init_stage();
 
-  bullet.texture = load_texture(
-    &app,
-    "images/playerBullet.png");
+  then = SDL_GetTicks();
+  remainder = 0;
 
   while(1) {
     prepare_scene(&app);
@@ -35,46 +30,11 @@ int main() {
     if (do_input(&app) < 0) {
       goto exit_program;
     }
-
-    player.x += player.dx;
-    player.y += player.dy;
-
-    if (app.up) {
-      player.y -= 4;
-    }
-    if (app.down) {
-      player.y += 4;
-    }
-    if (app.left) {
-      player.x -= 4;
-    }
-    if (app.right) {
-      player.x += 4;
-    }
-
-    if (app.fire && bullet.health == 0) {
-      /* Bullet originates at the player location */
-      bullet.x = player.x;
-      bullet.y = player.y;
-      bullet.dx = 16;
-      bullet.dy = 0;
-      bullet.health = 1;
-    }
-    /* Move the bullet in the screen */
-    bullet.x += bullet.dx;
-		bullet.y += bullet.dy;
-    /* Bullet has gone out of screen so does not need to be rendered */
-    if (bullet.x > SCREEN_WIDTH) {
-			bullet.health = 0;
-		}
-    blit(&app, player.texture, player.x, player.y);
-    /* Render the bullet if active */
-    if (bullet.health > 0) {
-			blit(&app, bullet.texture, bullet.x, bullet.y);
-		}
-    present_scene(&app);
-
-    SDL_Delay(16);
+    
+    app.delgate.logic();
+    app.delgate.draw();
+    present_scene();
+    cap_frame_rate(&then, &remainder);
   }
   return EXIT_SUCCESS;
 
@@ -87,4 +47,21 @@ exit_program:
   cleanup(&app);
   return EXIT_SUCCESS;
 
+}
+
+static void cap_frame_rate(long* then, float* remainder) {
+
+  long wait, frame_time;
+  wait = 16 + *remainder;
+
+  *remainder -= (int)*remainder;
+  frame_time = SDL_GetTicks() - *then;
+
+  wait -= frame_time;
+  if (wait < 1) {
+    wait = 1;
+  }
+  SDL_Delay(wait);
+  *remainder += 0.667;
+  *then = SDL_GetTicks();
 }

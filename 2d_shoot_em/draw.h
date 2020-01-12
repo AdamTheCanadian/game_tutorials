@@ -3,20 +3,21 @@
 
 #include "structs.h"
 #include "sdl.h"
+#include "main.h"
+
+extern App app;
 
 /**
  * @brief Prepare the scene before presenting to the screen
  * 
- * @param app 
  */
-void prepare_scene(App* app);
+void prepare_scene();
 
 /**
  * @brief 
  * 
- * @param app 
  */
-void present_scene(App* app);
+void present_scene();
 
 /**
  * @brief Load a file and convert it to a sdl texture
@@ -25,19 +26,16 @@ void present_scene(App* app);
  * @return SDL_Texture* 
  */
 SDL_Texture* load_texture(
-  App* app,
   char* filename);
 
 /**
  * @brief Draw a texture at a certain location
  * 
- * @param app 
  * @param texture 
  * @param x 
  * @param y 
  */
 void blit(
-  App* app,
   SDL_Texture* texture,
   int x,
   int y);

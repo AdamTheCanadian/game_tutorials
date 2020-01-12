@@ -6,4 +6,11 @@
 /* The height of the game window in pixels */
 #define SCREEN_HEIGHT 720
 
+/* Number of potential keyboard inputs */
+#define MAX_KEYBOARD_KEYS 350
+
+#define PLAYER_SPEED 4
+#define PLAYER_BULLET_SPEED 16
+
+
 #endif

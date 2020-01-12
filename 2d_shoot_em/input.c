@@ -2,57 +2,19 @@
 
 
 void do_key_down(
-  App* app,
   SDL_KeyboardEvent* event) {
 
-  if (event->repeat == 0) {
-		if (event->keysym.scancode == SDL_SCANCODE_UP) {
-			app->up = 1;
-		}
-		
-		if (event->keysym.scancode == SDL_SCANCODE_DOWN) {
-			app->down = 1;
-		}
-		
-		if (event->keysym.scancode == SDL_SCANCODE_LEFT) {
-			app->left = 1;
-		}
-		
-		if (event->keysym.scancode == SDL_SCANCODE_RIGHT) {
-			app->right = 1;
-		}
-    /* Keyboard input for firing */
-    if (event->keysym.scancode == SDL_SCANCODE_LCTRL) {
-      app->fire = 1;
-    }
-
-	}
+  if (event->repeat == 0 && event->keysym.scancode < MAX_KEYBOARD_KEYS) {
+    app.keyboard[event->keysym.scancode] = 1;
+  }
 }
 
 void do_key_up(
-  App* app,
   SDL_KeyboardEvent* event) {
   
-  if (event->repeat == 0) {
-		if (event->keysym.scancode == SDL_SCANCODE_UP) {
-			app->up = 0;
-		}
-		
-		if (event->keysym.scancode == SDL_SCANCODE_DOWN) {
-			app->down = 0;
-		}
-		
-		if (event->keysym.scancode == SDL_SCANCODE_LEFT) {
-			app->left = 0;
-		}
-		
-		if (event->keysym.scancode == SDL_SCANCODE_RIGHT) {
-			app->right = 0;
-		}
-    if (event->keysym.scancode == SDL_SCANCODE_LCTRL) {
-      app->fire = 0;
-    }
-	}
+  if (event->repeat == 0 && event->keysym.scancode < MAX_KEYBOARD_KEYS) {
+    app.keyboard[event->keysym.scancode] = 0;
+  }
 }
 
 int do_input(App* app) {
@@ -66,11 +28,11 @@ int do_input(App* app) {
       break;
     /* If any key is pressed down */
     case SDL_KEYDOWN:
-      do_key_down(app, &event.key);
+      do_key_down(&event.key);
       break;
     /* If any key is released */
     case SDL_KEYUP:
-      do_key_up(app, &event.key);
+      do_key_up(&event.key);
       break;
     default:
       break;  
