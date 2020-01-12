@@ -21,6 +21,11 @@ void do_key_down(
 		if (event->keysym.scancode == SDL_SCANCODE_RIGHT) {
 			app->right = 1;
 		}
+    /* Keyboard input for firing */
+    if (event->keysym.scancode == SDL_SCANCODE_LCTRL) {
+      app->fire = 1;
+    }
+
 	}
 }
 
@@ -44,6 +49,9 @@ void do_key_up(
 		if (event->keysym.scancode == SDL_SCANCODE_RIGHT) {
 			app->right = 0;
 		}
+    if (event->keysym.scancode == SDL_SCANCODE_LCTRL) {
+      app->fire = 0;
+    }
 	}
 }
 

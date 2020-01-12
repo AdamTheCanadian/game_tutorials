@@ -11,6 +11,8 @@ typedef struct {
   int down;
   int left;
   int right;
+  /* For storing shoot input from keyboard */
+  int fire;
 } App;
 
 /**
@@ -31,6 +33,10 @@ typedef struct {
 typedef struct {
 	int x;
 	int y;
+  int dx;
+  int dy;
+  /* Health of 0 means the entity can be deleted */
+  int health;
 	SDL_Texture *texture;
 } Entity;
 
