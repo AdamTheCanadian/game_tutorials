@@ -33,4 +33,10 @@ void draw_player();
 
 void draw_bullets();
 
+void draw_fighters(); 
+
+void do_fighters();
+
+void spawn_enemies();
+
 #endif

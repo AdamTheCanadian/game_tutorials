@@ -3,6 +3,8 @@
 
 static Entity *player;
 static SDL_Texture *bullet_texture;
+static SDL_Texture *enemy_texture;
+static int enemy_spawn_timer;
 
 void init_stage() {
 
@@ -16,6 +18,8 @@ void init_stage() {
   init_player();
   /* Load the bullet now so dont need to reload every time a bullet is fired */
   bullet_texture = load_texture("images/playerBullet.png");
+  enemy_texture = load_texture("images/enemy.png");
+  enemy_spawn_timer = 0;
 }
 
 void init_player() {
@@ -32,7 +36,9 @@ void init_player() {
 
 void logic() {
   do_player();
+  do_fighters();
   do_bullets();
+  spawn_enemies();
 }
 
 void do_player() {
@@ -118,7 +124,7 @@ void fire_bullet() {
 }
 
 void draw() {
-  draw_player();
+  draw_fighters();
   draw_bullets();
 }
 
@@ -131,4 +137,56 @@ void draw_bullets() {
   for (b = stage.bullet_head.next; b != NULL; b = b->next) {
     blit(b->texture, b->x, b->y);
   }
+}
+
+void do_fighters() {
+  
+  Entity *e, *prev;
+	
+	for (e = stage.fighter_head.next ; e != NULL ; e = e->next) {
+		e->x += e->dx;
+		e->y += e->dy;
+		
+		if (e != player && e->x < -e->w) {
+			if (e == stage.fighter_tail) {
+				stage.fighter_tail = prev;
+			}
+			
+			prev->next = e->next;
+			free(e);
+			e = prev;
+		}
+		
+		prev = e;
+	}
+}
+
+void spawn_enemies() {
+  Entity *enemy;
+	
+	if (--enemy_spawn_timer <= 0) {
+    
+		enemy = malloc(sizeof(Entity));
+		memset(enemy, 0, sizeof(Entity));
+		stage.fighter_tail->next = enemy;
+		stage.fighter_tail = enemy;
+		
+		enemy->x = SCREEN_WIDTH;
+		enemy->y = rand() % SCREEN_HEIGHT;
+		enemy->texture = enemy_texture;
+		SDL_QueryTexture(enemy->texture, NULL, NULL, &enemy->w, &enemy->h);
+		
+		enemy->dx = -(2 + (rand() % 4));
+		
+		enemy_spawn_timer = 30 + (rand() % 60);
+	}
+}
+
+void draw_fighters() {
+  
+  Entity *e;
+	
+	for (e = stage.fighter_head.next ; e != NULL ; e = e->next) {
+		blit(e->texture, e->x, e->y);
+	}
 }
